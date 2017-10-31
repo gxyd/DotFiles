@@ -114,17 +114,35 @@ if ! shopt -oq posix; then
 fi
 
 
+
+# --------- Alias or commands entered by me ----------------
+
+
+# *** Notification on finish of long running commands ***
+. /usr/share/undistract-me/long-running.bash
+notify_when_long_running_commands_finish_install
+
 # alias to increase and decrease volume beyond limit
 alias increase_volume="pactl set-sink-volume 0 +10%"
 alias decrease_volume="pactl set-sink-volume 0 -- -10%"
 
+# *** tuning bash prompt for ***
+# looks like: [gxyd@stallman integrals{master}]$
+PS1="[\u@\h \W\$(git branch 2> /dev/null | grep -e '\* ' | sed 's/^..\(.*\)/{\1}/')]\$ "
 
-# un-comments this line for using Anaconda keyword completion in terminal
-# added by Anaconda2 4.3.0 installer
-#export PATH="/home/gaurav/anaconda2/bin:$PATH"
 
+# *** un-comment this line if you want to use conda commands ***
+# added by Anaconda3 4.3.1 installer
+export PATH="/home/gxyd/anaconda3/bin:$PATH"
 
-# notification in Ubuntu 14.04 LTS
-# source: https://itsfoss.com/notification-terminal-command-completion-ubuntu/
-. /usr/share/undistract-me/long-running.bash
-notify_when_long_running_commands_finish_install
+# *** add the scikit-learn directory to PYTHONPATH ***
+export PATH="/home/gxyd/foss/scikit-learn:$PATH"
+
+# *** DON'T delete `rm`'ed files ***
+# the 'rm' files aren't actually "rm'ed" but are moved to 'Trash' aka 'Recycle bin' folder
+alias rm=trash
+
+## *** logout and restart unity (doesn't restart the system) ***
+# kill compiz completely, including all child processes, freeing it's memory:
+alias logout_all="killall -9 compiz & unity & disown"
+# run unity and give you back a free terminal
