@@ -37,7 +37,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -56,12 +56,14 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
+## ** better way of defining the PS1 by displaying the git branch
+## ** present in 'Alias' commands
+#if [ "$color_prompt" = yes ]; then
+#    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+#else
+#    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+#fi
+#unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -83,6 +85,9 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
+
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
 alias ll='ls -alF'
@@ -126,23 +131,21 @@ notify_when_long_running_commands_finish_install
 alias increase_volume="pactl set-sink-volume 0 +10%"
 alias decrease_volume="pactl set-sink-volume 0 -- -10%"
 
-# *** tuning bash prompt for ***
-# looks like: [gxyd@stallman integrals{master}]$
-PS1="[\u@\h \W\$(git branch 2> /dev/null | grep -e '\* ' | sed 's/^..\(.*\)/{\1}/')]\$ "
-
-
-# *** un-comment this line if you want to use conda commands ***
-# added by Anaconda3 4.3.1 installer
+# added by Anaconda3 installer
 export PATH="/home/gxyd/anaconda3/bin:$PATH"
-
-# *** add the scikit-learn directory to PYTHONPATH ***
-export PATH="/home/gxyd/foss/scikit-learn:$PATH"
 
 # *** DON'T delete `rm`'ed files ***
 # the 'rm' files aren't actually "rm'ed" but are moved to 'Trash' aka 'Recycle bin' folder
 alias rm=trash
 
-## *** logout and restart unity (doesn't restart the system) ***
-# kill compiz completely, including all child processes, freeing it's memory:
-alias logout_all="killall -9 compiz & unity & disown"
-# run unity and give you back a free terminal
+
+# Add git branch if its present to PS1
+
+parse_git_branch() {
+ git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+if [ "$color_prompt" = yes ]; then
+ PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\]$(parse_git_branch)\[\033[00m\]\$ '
+else
+ PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(parse_git_branch)\$ '
+fi
