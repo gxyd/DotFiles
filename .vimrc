@@ -24,6 +24,8 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'Valloric/YouCompleteMe'
 " Fuzzy file, buffer, mru, tag, etc finder.
 Plugin 'ctrlpvim/ctrlp.vim'
+" python Jedi
+Plugin 'davidhalter/jedi'
 
 " End call to vundle
 call vundle#end()
@@ -34,6 +36,8 @@ filetype plugin indent on
 " ======================
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_collect_identifiers_from_tag_files = 1
+" use system wide python instead of 'Anaconda' python
+let g:ycm_server_python_interpreter = '/usr/bin/python'
 
 " turn on syntax highlight
 " ========================
