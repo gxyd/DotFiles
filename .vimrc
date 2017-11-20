@@ -14,8 +14,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 " plugin for browsing files in vim in the side window pane
 Plugin 'scrooloose/nerdtree'
-" Syntax checking for vim
-Plugin 'scrooloose/syntastic'
 " a Git wrapper
 Plugin 'tpope/vim-fugitive'
 " simple quoting/parenthesizing
