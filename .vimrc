@@ -21,11 +21,13 @@ Plugin 'tpope/vim-surround'
 " Vim plugin, insert or delete brackets, parens, quotes in pair
 Plugin 'jiangmiao/auto-pairs'
 " code-completion engine for vim
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'gxyd/YouCompleteMe'
 " Fuzzy file, buffer, mru, tag, etc finder.
 Plugin 'ctrlpvim/ctrlp.vim'
 " python Jedi
 Plugin 'davidhalter/jedi'
+" Flake8 plugin for Vim
+Plugin 'nvie/vim-flake8'
 
 " End call to vundle
 call vundle#end()
