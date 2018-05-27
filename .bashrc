@@ -16,8 +16,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+# HISTSIZE=1000
+# HISTFILESIZE=2000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -47,12 +47,12 @@ force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
     else
-	color_prompt=
+    color_prompt=
     fi
 fi
 
@@ -125,15 +125,16 @@ notify_when_long_running_commands_finish_install
 alias increase_volume="pactl set-sink-volume 0 +10%"
 alias decrease_volume="pactl set-sink-volume 0 -- -10%"
 
-# added by Anaconda3 installer
+alias ubuntu_logout="sudo pkill -u gxyd"
+
+# *** added by Anaconda3 installer ***
 # export PATH="/home/gxyd/anaconda3/bin:$PATH"
 
 # *** DON'T delete `rm`'ed files ***
-# the 'rm' files aren't actually "rm'ed" but are moved to 'Trash' aka 'Recycle bin' folder
+# the 'rm' files aren't actually "rm'ed" but are moved to 'Trash' aka
+# 'Recycle bin' folder
 alias rm=trash
 
-
-# Add git branch if its present to PS1
 
 # Add git branch if its present to PS1
 parse_git_branch() {
@@ -146,3 +147,18 @@ else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(parse_git_branch)\$ '
 fi
 unset color_prompt force_color_prompt
+
+
+# Eternal bash history.
+# ---------------------
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_eternal_history
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
