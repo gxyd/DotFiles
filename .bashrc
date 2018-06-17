@@ -162,3 +162,15 @@ export HISTFILE=~/.bash_eternal_history
 # Force prompt to write history after every command.
 # http://superuser.com/questions/20900/bash-history-loss
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# For setting tab-title of gnome-terminal
+# only for Ubuntu 16.04
+# =======================================
+# function to set terminal title
+function set-title(){
+  if [[ -z "$ORIG" ]]; then
+    ORIG="$PS1"
+  fi
+  TITLE="\[\e]2;$*\a\]"
+  PS1="${ORIG}${TITLE}"
+}
